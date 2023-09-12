@@ -5,25 +5,15 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import { Link } from '@mui/material';
 import { Navigate, Outlet, Link as RouterLink } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function Header() {
     const [redirect, setRedirect] = useState(false);
-
-    const mes = new Date().getMonth();
-    const ano = new Date().getFullYear();
 
     const logout = () => {
         localStorage.clear();
         setRedirect(true);
     }
-
-    useEffect(() => {
-        if (!localStorage.getItem('access-token')) {
-            setRedirect(true);
-            return;
-        }
-    }, []);
 
     if (redirect) {
         return <Navigate to={'/'} />
@@ -35,12 +25,12 @@ export default function Header() {
                 <Container maxWidth="lg">
                     <Toolbar>
                         <Box sx={{ flexGrow: 1, display: 'flex' }}>
-                            <Link component={RouterLink} to={`/admin/sessoes/${mes}/${ano}`}>
+                            <Link component={RouterLink} to={`/admin/sessoes`} sx={{ textDecoration: 'none' }}>
                                 <Button sx={{ my: 2, color: 'black' }}>
                                     Sessões
                                 </Button>
                             </Link>
-                            <Link component={RouterLink} to={'/admin/pacientes'}>
+                            <Link component={RouterLink} to={'/admin/pacientes'} sx={{ textDecoration: 'none' }}>
                                 <Button sx={{ my: 2, color: 'black' }}>
                                     Pacientes
                                 </Button>

@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
 import http from "../../http";
 import IPaciente from "../../interfaces/IPaciente";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-
-
+import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled } from "@mui/material";
+import { Navigate } from "react-router-dom";
+import SelectStatusSessao from "../../components/SelectStatusSessao";
 
 export default function Sessoes() {
+    const mesAtual = new Date().getMonth() + 1;
+    const anoAtual = new Date().getFullYear();
+
+    const [redirect, setRedirect] = useState(false);
     const [pacientes, setPacientes] = useState<IPaciente[]>([]);
-    const [mes, setMes] = useState(new Date().getMonth().toString());
-    const [ano, setAno] = useState(new Date().getFullYear().toString());
+    const [mes, setMes] = useState(mesAtual.toString());
+    const [ano, setAno] = useState(anoAtual.toString());
 
     useEffect(() => {
+        if (!localStorage.getItem('access-token')) {
+            setRedirect(true);
+            return;
+        }
+        // TODO verificar validade do token na API, e redirecionar para tela de login se já estiver inválido
+
         buscarPacientes();
     }, []);
 
@@ -35,11 +45,23 @@ export default function Sessoes() {
         buscarPacientes();
     }
 
+    if (redirect) {
+        return <Navigate to={'/'} />
+    }
+
+    const StyledTableRow = styled(TableRow)(({ theme }) => ({
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+        // hide last border
+        '&:last-child td, &:last-child th': {
+            border: 0,
+        },
+    }));
+
     return (
-        // Essa página deverá ter:
-        // - Uma lista <select> com os meses e outra com os anos, e um botão de enviar (seleciona o mês/ano das sessões que serão mostradas)
-        // - listagem dos pacientes e os status das sessões de cada semana para o mês/ano selecionado
         <>
+            {/* TODO transformar este formulário em componente e usar Recoil para mudar o estado do array de pacientes */}
             <Box component={'form'} onSubmit={buscarPorMesAno}>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel id="mes-sessao-label">Mês</InputLabel>
@@ -80,6 +102,48 @@ export default function Sessoes() {
 
                 <Button type='submit' variant="contained" sx={{ padding: '1rem', mt: '0.5rem', ml: '8px', height: '100%' }}>Buscar</Button>
             </Box>
+
+            <TableContainer component={Paper} sx={{ mt: '1.5rem' }}>
+                <Table>
+                    <TableHead sx={{ backgroundColor: 'lightpink' }}>
+                        <TableRow>
+                            <TableCell align='left'>Pacientes</TableCell>
+                            <TableCell align='center'>Semana 1</TableCell>
+                            <TableCell align='center'>Semana 2</TableCell>
+                            <TableCell align='center'>Semana 3</TableCell>
+                            <TableCell align='center'>Semana 4</TableCell>
+                            <TableCell align='center'>Semana 5</TableCell>
+                            <TableCell align='center'>Total Recebido</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {pacientes.map(paciente =>
+                            <StyledTableRow
+                                key={paciente._id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell align='left'>{paciente.nome}</TableCell>
+                                <TableCell align='center'>
+                                    <SelectStatusSessao valor={paciente.sessoes[0].status_semana?.semana_1} />
+                                </TableCell>
+                                <TableCell align='center'>
+                                    <SelectStatusSessao valor={paciente.sessoes[0].status_semana?.semana_2} />
+                                </TableCell>
+                                <TableCell align='center'>
+                                    <SelectStatusSessao valor={paciente.sessoes[0].status_semana?.semana_3} />
+                                </TableCell>
+                                <TableCell align='center'>
+                                    <SelectStatusSessao valor={paciente.sessoes[0].status_semana?.semana_4} />
+                                </TableCell>
+                                <TableCell align='center'>
+                                    <SelectStatusSessao valor={paciente.sessoes[0].status_semana?.semana_5} />
+                                </TableCell>
+                                <TableCell align='center'></TableCell>
+                            </StyledTableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </>
     );
 }
