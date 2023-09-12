@@ -40,7 +40,11 @@ export default function Login() {
     };
     
     useEffect(() => {
-        localStorage.removeItem('access-token');
+        if (localStorage.getItem('access-token')) {
+            setRedirect(true);
+            return;
+        }
+        localStorage.clear();
     }, []);
 
     if (redirect) {
