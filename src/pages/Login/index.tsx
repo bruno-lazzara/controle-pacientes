@@ -1,14 +1,8 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import http from '../../http';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import { Container, CssBaseline, Box, Avatar, Typography, TextField, Button } from '@mui/material';
 
 export default function Login() {
     const [redirect, setRedirect] = useState(false);

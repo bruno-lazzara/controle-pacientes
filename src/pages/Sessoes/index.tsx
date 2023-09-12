@@ -50,7 +50,7 @@ export default function Sessoes() {
     }
 
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
-        '&:nth-of-type(odd)': {
+        '&:nth-of-type(even)': {
             backgroundColor: theme.palette.action.hover,
         },
         // hide last border
@@ -124,19 +124,19 @@ export default function Sessoes() {
                             >
                                 <TableCell align='left'>{paciente.nome}</TableCell>
                                 <TableCell align='center'>
-                                    <SelectStatusSessao valor={paciente.sessoes[0].status_semana?.semana_1} />
+                                    <SelectStatusSessao paciente={paciente} semana={1} />
                                 </TableCell>
                                 <TableCell align='center'>
-                                    <SelectStatusSessao valor={paciente.sessoes[0].status_semana?.semana_2} />
+                                    <SelectStatusSessao paciente={paciente} semana={2}/>
                                 </TableCell>
                                 <TableCell align='center'>
-                                    <SelectStatusSessao valor={paciente.sessoes[0].status_semana?.semana_3} />
+                                    <SelectStatusSessao paciente={paciente} semana={3}/>
                                 </TableCell>
                                 <TableCell align='center'>
-                                    <SelectStatusSessao valor={paciente.sessoes[0].status_semana?.semana_4} />
+                                    <SelectStatusSessao paciente={paciente} semana={4}/>
                                 </TableCell>
                                 <TableCell align='center'>
-                                    <SelectStatusSessao valor={paciente.sessoes[0].status_semana?.semana_5} />
+                                    <SelectStatusSessao paciente={paciente} semana={5}/>
                                 </TableCell>
                                 <TableCell align='center'></TableCell>
                             </StyledTableRow>
