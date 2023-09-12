@@ -48,10 +48,7 @@ export default function Login() {
     }, []);
 
     if (redirect) {
-        const dataAtual = new Date();
-        const ano = dataAtual.getFullYear();
-        const mes = dataAtual.getMonth();
-        return <Navigate to={`/sessoes/${mes}/${ano}`} />
+        return <Navigate to={`/admin/sessoes`} />
     }
 
     return (
@@ -69,7 +66,7 @@ export default function Login() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Log in
+                    Acompanhamento de Pacientes
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     <TextField
@@ -79,6 +76,7 @@ export default function Login() {
                         id="email"
                         label="Email"
                         name="email"
+                        type='email'
                         autoComplete="email"
                         autoFocus
                     />
