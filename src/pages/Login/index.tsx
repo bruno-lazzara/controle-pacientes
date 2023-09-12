@@ -6,19 +6,49 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import http from '../../http';
 
 export default function Login() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const [redirect, setRedirect] = useState(false);
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-
-        // TODO implementar lógica de autenticação e redirecionamento para tela inicial
-
-        console.log({
+        const credenciais = {
             email: data.get('email'),
-            password: data.get('password'),
-        });
+            senha: data.get('senha')
+        }
+
+        try {
+            const result = await http.request({
+                url: '/usuarios/autenticar',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: credenciais
+            });
+
+            localStorage.setItem('access-token', result.data.token);
+
+            setRedirect(true);
+        } catch (err) {
+            alert('Email ou senha incorretos');   
+        }
     };
+    
+    useEffect(() => {
+        localStorage.removeItem('access-token');
+    }, []);
+
+    if (redirect) {
+        const dataAtual = new Date();
+        const ano = dataAtual.getFullYear();
+        const mes = dataAtual.getMonth();
+        return <Navigate to={`/sessoes/${mes}/${ano}`} />
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -52,10 +82,10 @@ export default function Login() {
                         margin="normal"
                         required
                         fullWidth
-                        name="password"
+                        name="senha"
                         label="Senha"
                         type="password"
-                        id="password"
+                        id="senha"
                         autoComplete="current-password"
                     />
                     <Button
