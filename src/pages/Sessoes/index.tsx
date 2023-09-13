@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import http from "../../http";
 import IPaciente from "../../interfaces/IPaciente";
-import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled } from "@mui/material";
 import { Navigate } from "react-router-dom";
 import SelectStatusSessao from "../../components/SelectStatusSessao";
+import SelectNovoPaciente from "../../components/SelectNovoPaciente";
 
 export default function Sessoes() {
     const mesAtual = new Date().getMonth() + 1;
@@ -39,12 +40,6 @@ export default function Sessoes() {
         }
     }
 
-    const buscarPorMesAno = (evento: React.FormEvent<HTMLFormElement>) => {
-        evento.preventDefault();
-
-        buscarPacientes();
-    }
-
     if (redirect) {
         return <Navigate to={'/'} />
     }
@@ -62,46 +57,49 @@ export default function Sessoes() {
     return (
         <>
             {/* TODO transformar este formulário em componente e usar Recoil para mudar o estado do array de pacientes */}
-            <Box component={'form'} onSubmit={buscarPorMesAno}>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                    <InputLabel id="mes-sessao-label">Mês</InputLabel>
-                    <Select
-                        labelId="mes-sessao-label"
-                        id="mes-sessao"
-                        value={mes}
-                        label="Mês"
-                        onChange={evento => setMes(evento.target.value)}
-                    >
-                        <MenuItem value={1}>01</MenuItem>
-                        <MenuItem value={2}>02</MenuItem>
-                        <MenuItem value={3}>03</MenuItem>
-                        <MenuItem value={4}>04</MenuItem>
-                        <MenuItem value={5}>05</MenuItem>
-                        <MenuItem value={6}>06</MenuItem>
-                        <MenuItem value={7}>07</MenuItem>
-                        <MenuItem value={8}>08</MenuItem>
-                        <MenuItem value={9}>09</MenuItem>
-                        <MenuItem value={10}>10</MenuItem>
-                        <MenuItem value={11}>11</MenuItem>
-                        <MenuItem value={12}>12</MenuItem>
-                    </Select>
-                </FormControl>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                    <InputLabel id="ano-sessao-label">Ano</InputLabel>
-                    <Select
-                        labelId="ano-sessao-label"
-                        id="ano-sessao"
-                        value={ano}
-                        label="Mês"
-                        onChange={evento => setAno(evento.target.value)}
-                    >
-                        <MenuItem value={2023}>2023</MenuItem>
-                        <MenuItem value={2024}>2024</MenuItem>
-                    </Select>
-                </FormControl>
-
-                <Button type='submit' variant="contained" sx={{ padding: '1rem', mt: '0.5rem', ml: '8px', height: '100%' }}>Buscar</Button>
-            </Box>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="mes-sessao-label">Mês</InputLabel>
+                <Select
+                    labelId="mes-sessao-label"
+                    id="mes-sessao"
+                    value={mes}
+                    label="Mês"
+                    onChange={evento => setMes(evento.target.value)}
+                >
+                    <MenuItem value={1}>01</MenuItem>
+                    <MenuItem value={2}>02</MenuItem>
+                    <MenuItem value={3}>03</MenuItem>
+                    <MenuItem value={4}>04</MenuItem>
+                    <MenuItem value={5}>05</MenuItem>
+                    <MenuItem value={6}>06</MenuItem>
+                    <MenuItem value={7}>07</MenuItem>
+                    <MenuItem value={8}>08</MenuItem>
+                    <MenuItem value={9}>09</MenuItem>
+                    <MenuItem value={10}>10</MenuItem>
+                    <MenuItem value={11}>11</MenuItem>
+                    <MenuItem value={12}>12</MenuItem>
+                </Select>
+            </FormControl>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="ano-sessao-label">Ano</InputLabel>
+                <Select
+                    labelId="ano-sessao-label"
+                    id="ano-sessao"
+                    value={ano}
+                    label="Mês"
+                    onChange={evento => setAno(evento.target.value)}
+                >
+                    <MenuItem value={2023}>2023</MenuItem>
+                    <MenuItem value={2024}>2024</MenuItem>
+                </Select>
+            </FormControl>
+            <Button
+                variant="contained"
+                sx={{ padding: '1rem', mt: '0.5rem', ml: '8px', height: '100%' }}
+                onClick={buscarPacientes}
+            >
+                Buscar
+            </Button>
 
             <TableContainer component={Paper} sx={{ mt: '1.5rem' }}>
                 <Table>
@@ -127,20 +125,27 @@ export default function Sessoes() {
                                     <SelectStatusSessao paciente={paciente} semana={1} />
                                 </TableCell>
                                 <TableCell align='center'>
-                                    <SelectStatusSessao paciente={paciente} semana={2}/>
+                                    <SelectStatusSessao paciente={paciente} semana={2} />
                                 </TableCell>
                                 <TableCell align='center'>
-                                    <SelectStatusSessao paciente={paciente} semana={3}/>
+                                    <SelectStatusSessao paciente={paciente} semana={3} />
                                 </TableCell>
                                 <TableCell align='center'>
-                                    <SelectStatusSessao paciente={paciente} semana={4}/>
+                                    <SelectStatusSessao paciente={paciente} semana={4} />
                                 </TableCell>
                                 <TableCell align='center'>
-                                    <SelectStatusSessao paciente={paciente} semana={5}/>
+                                    <SelectStatusSessao paciente={paciente} semana={5} />
                                 </TableCell>
                                 <TableCell align='center'></TableCell>
                             </StyledTableRow>
                         )}
+                        <StyledTableRow
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                            <TableCell>
+                                <SelectNovoPaciente mes={mes} ano={ano} />
+                            </TableCell>
+                        </StyledTableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
