@@ -8,6 +8,7 @@ import useMes from "../../state/hooks/useMes";
 import useAno from "../../state/hooks/useAno";
 import FormMesAno from "../../components/FormMesAno";
 import useAtualizarPacientes from "../../state/hooks/useAtualizarPacientes";
+import ValorTotalNoMes from "../../components/ValorTotalNoMes";
 
 export default function Sessoes() {
     const mes = useMes();
@@ -87,8 +88,14 @@ export default function Sessoes() {
                         <StyledTableRow
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell>
+                            <TableCell colSpan={5}>
                                 <SelectNovoPaciente mes={mes} ano={ano} />
+                            </TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>
+                                TOTAL APÓS DESCONTOS
+                            </TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>
+                                <ValorTotalNoMes />
                             </TableCell>
                         </StyledTableRow>
                     </TableBody>
