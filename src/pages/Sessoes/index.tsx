@@ -3,19 +3,19 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { Navigate } from "react-router-dom";
 import SelectStatusSessao from "../../components/SelectStatusSessao";
 import SelectNovoPaciente from "../../components/SelectNovoPaciente";
-import usePacientes from "../../state/hooks/usePacientes";
+import usePacientesMesAno from "../../state/hooks/usePacientesMesAno";
 import useMes from "../../state/hooks/useMes";
 import useAno from "../../state/hooks/useAno";
 import FormMesAno from "../../components/FormMesAno";
-import useAtualizarPacientes from "../../state/hooks/useAtualizarPacientes";
+import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
 import ValorTotalNoMes from "../../components/ValorTotalNoMes";
 
 export default function Sessoes() {
     const mes = useMes();
     const ano = useAno();
-    const pacientes = usePacientes();
+    const pacientes = usePacientesMesAno();
     const [redirect, setRedirect] = useState(false);
-    const atualizaListaPacientes = useAtualizarPacientes();
+    const atualizaListaPacientes = useAtualizarPacientesMesAno();
 
     useEffect(() => {
         if (!localStorage.getItem('access-token')) {

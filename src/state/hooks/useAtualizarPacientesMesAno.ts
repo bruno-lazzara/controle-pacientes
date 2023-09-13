@@ -1,12 +1,12 @@
 import { useSetRecoilState } from "recoil"
 import IPaciente from "../../interfaces/IPaciente"
-import { listaDePacientesState } from "../atom"
+import { pacientesMesAnoState } from "../atom"
 import useMes from "./useMes";
 import useAno from "./useAno";
 import http from "../../http";
 
-const useAtualizarPacientes = () => {
-    const setPacientes = useSetRecoilState<IPaciente[]>(listaDePacientesState);
+const useAtualizarPacientesMesAno = () => {
+    const setPacientes = useSetRecoilState<IPaciente[]>(pacientesMesAnoState);
     const mes = useMes();
     const ano = useAno();
 
@@ -27,4 +27,4 @@ const useAtualizarPacientes = () => {
     }
 }
 
-export default useAtualizarPacientes;
+export default useAtualizarPacientesMesAno;

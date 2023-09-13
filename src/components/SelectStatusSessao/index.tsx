@@ -3,7 +3,7 @@ import { useState } from "react";
 import IStatusSemana from "../../interfaces/IStatusSemana";
 import http from "../../http";
 import IPaciente from "../../interfaces/IPaciente";
-import useAtualizarPacientes from "../../state/hooks/useAtualizarPacientes";
+import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
 
 interface SessaoProp {
     paciente: IPaciente,
@@ -13,7 +13,7 @@ interface SessaoProp {
 export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
     const [statusSemana, setStatusSemana] = useState<IStatusSemana>(paciente.sessoes[0].status_semana);
     const [valor, setValor] = useState<string>(getValor());
-    const atualizaListaPacientes = useAtualizarPacientes();
+    const atualizaListaPacientes = useAtualizarPacientesMesAno();
 
     function getValor() {
         switch (semana) {

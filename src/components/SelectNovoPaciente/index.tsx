@@ -1,7 +1,7 @@
 import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 import http from "../../http";
-import useAtualizarPacientes from "../../state/hooks/useAtualizarPacientes";
+import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
 
 interface INovoPaciente {
     _id: string,
@@ -15,7 +15,7 @@ interface Props {
 
 export default function SelectNovoPaciente({ mes, ano }: Props) {
     const [novosPacientes, setNovosPacientes] = useState<INovoPaciente[]>([]);
-    const atualizarListaPacientes = useAtualizarPacientes();
+    const atualizarListaPacientes = useAtualizarPacientesMesAno();
 
     useEffect(() => {
         buscarNovosPacientes();
@@ -61,7 +61,7 @@ export default function SelectNovoPaciente({ mes, ano }: Props) {
                 throw new Error();
             }
         } catch (err) {
-            alert('Erro ao adicionar paciente no mês')
+            alert('Erro ao adicionar paciente no mês');
         }
     }
 

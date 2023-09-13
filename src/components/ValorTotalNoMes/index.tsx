@@ -1,9 +1,9 @@
-import usePacientes from "../../state/hooks/usePacientes";
+import usePacientesMesAno from "../../state/hooks/usePacientesMesAno";
 import useValorDesconto from "../../state/hooks/useValorDesconto";
 
 export default function ValorTotalNoMes() {
     const desconto = useValorDesconto();
-    const pacientes = usePacientes();
+    const pacientes = usePacientesMesAno();
     const valorTotalNoMes = calcularTotal();
 
     function calcularTotal() {
