@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import IPaciente from "../interfaces/IPaciente";
-import { pacientesAsync } from "./seletores";
+import { pacientesAsync, parametroDescontoAsync } from "./seletores";
 
 export const listaDePacientesState = atom<IPaciente[]>({
     key: 'listaDePacientesState',
@@ -16,3 +16,8 @@ export const anoState = atom<string>({
     key: 'anoState',
     default: new Date().getFullYear().toString()
 });
+
+export const parametroDescontoState = atom<number>({
+    key: 'parametroDescontoState',
+    default: parametroDescontoAsync
+})
