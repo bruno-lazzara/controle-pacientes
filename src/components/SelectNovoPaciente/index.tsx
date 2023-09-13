@@ -1,4 +1,4 @@
-import { FormControl, Select, MenuItem } from "@mui/material";
+import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 import http from "../../http";
 import useAtualizarPacientes from "../../state/hooks/useAtualizarPacientes";
@@ -66,9 +66,16 @@ export default function SelectNovoPaciente({ mes, ano }: Props) {
     }
 
     return (
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <Select value={''} sx={{ fontSize: '0.875rem' }} onChange={evento => adicionaSessaoPaciente(evento.target.value)}>
-                <MenuItem value='' sx={{ height: '36px' }}></MenuItem>
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120, width: 240 }}>
+            <InputLabel id="adicionar-paciente-label">Adicionar Paciente</InputLabel>
+            <Select
+                labelId="adicionar-paciente-label"
+                id="adicionar-paciente"
+                value={''}
+                sx={{ fontSize: '0.875rem' }}
+                onChange={evento => adicionaSessaoPaciente(evento.target.value)}
+                label="Adicionar Paciente"
+            >
                 {novosPacientes.map(paciente =>
                     <MenuItem key={paciente._id} value={paciente._id}>{paciente.nome}</MenuItem>
                 )}
