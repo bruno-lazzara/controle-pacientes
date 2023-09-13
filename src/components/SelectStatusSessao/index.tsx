@@ -3,6 +3,7 @@ import { useState } from "react";
 import IStatusSemana from "../../interfaces/IStatusSemana";
 import http from "../../http";
 import IPaciente from "../../interfaces/IPaciente";
+import useAtualizarPacientes from "../../state/hooks/useAtualizarPacientes";
 
 interface SessaoProp {
     paciente: IPaciente,
@@ -12,6 +13,7 @@ interface SessaoProp {
 export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
     const [statusSemana, setStatusSemana] = useState<IStatusSemana>(paciente.sessoes[0].status_semana);
     const [valor, setValor] = useState<string>(getValor());
+    const atualizaListaPacientes = useAtualizarPacientes();
 
     function getValor() {
         switch (semana) {
@@ -32,21 +34,28 @@ export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
 
     async function alteraStatusSemana(status: string) {
         setValor(status);
+        let novoStatusSemana = {
+            semana_1: statusSemana.semana_1,
+            semana_2: statusSemana.semana_2,
+            semana_3: statusSemana.semana_3,
+            semana_4: statusSemana.semana_4,
+            semana_5: statusSemana.semana_5
+        };
         switch (semana) {
             case 1:
-                statusSemana.semana_1 = status;
+                novoStatusSemana.semana_1 = status;
                 break;
             case 2:
-                statusSemana.semana_2 = status;
+                novoStatusSemana.semana_2 = status;
                 break;
             case 3:
-                statusSemana.semana_3 = status;
+                novoStatusSemana.semana_3 = status;
                 break;
             case 4:
-                statusSemana.semana_4 = status;
+                novoStatusSemana.semana_4 = status;
                 break;
             case 5:
-                statusSemana.semana_5 = status;
+                novoStatusSemana.semana_5 = status;
                 break;
             default:
                 return '';
@@ -62,13 +71,14 @@ export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
             const resultado = await http.put(
                 `/pacientes/${paciente._id}/${paciente.sessoes[0]._id}`,
                 {
-                    status_semana: statusSemana
+                    status_semana: novoStatusSemana
                 },
                 config
             );
 
             if (resultado.status === 200) {
-                setStatusSemana(statusSemana);
+                setStatusSemana(novoStatusSemana);
+                atualizaListaPacientes();
             }
             else {
                 throw new Error();

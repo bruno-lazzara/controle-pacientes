@@ -1,6 +1,7 @@
 import { FormControl, Select, MenuItem } from "@mui/material";
 import { useEffect, useState } from "react";
 import http from "../../http";
+import useAtualizarPacientes from "../../state/hooks/useAtualizarPacientes";
 
 interface INovoPaciente {
     _id: string,
@@ -14,6 +15,7 @@ interface Props {
 
 export default function SelectNovoPaciente({ mes, ano }: Props) {
     const [novosPacientes, setNovosPacientes] = useState<INovoPaciente[]>([]);
+    const atualizarListaPacientes = useAtualizarPacientes();
 
     useEffect(() => {
         buscarNovosPacientes();
@@ -53,7 +55,7 @@ export default function SelectNovoPaciente({ mes, ano }: Props) {
             );
 
             if (resultado.status === 200) {
-                // TODO chamar método que atualiza lista dos pacientes com sessão no mês atual (Recoil)
+                atualizarListaPacientes();
             }
             else {
                 throw new Error();

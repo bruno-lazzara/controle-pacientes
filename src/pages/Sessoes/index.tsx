@@ -5,15 +5,22 @@ import { Button, FormControl, InputLabel, MenuItem, Paper, Select, Table, TableB
 import { Navigate } from "react-router-dom";
 import SelectStatusSessao from "../../components/SelectStatusSessao";
 import SelectNovoPaciente from "../../components/SelectNovoPaciente";
+import usePacientes from "../../state/hooks/usePacientes";
+import { useSetRecoilState } from "recoil";
+import { anoState, listaDePacientesState, mesState } from "../../state/atom";
+import useMes from "../../state/hooks/useMes";
+import useAno from "../../state/hooks/useAno";
 
 export default function Sessoes() {
-    const mesAtual = new Date().getMonth() + 1;
-    const anoAtual = new Date().getFullYear();
+    const mes = useMes();
+    const ano = useAno();
+    const setMes = useSetRecoilState<string>(mesState);
+    const setAno = useSetRecoilState<string>(anoState);
+
+    const pacientes = usePacientes();
+    const setPacientes = useSetRecoilState<IPaciente[]>(listaDePacientesState);
 
     const [redirect, setRedirect] = useState(false);
-    const [pacientes, setPacientes] = useState<IPaciente[]>([]);
-    const [mes, setMes] = useState(mesAtual.toString());
-    const [ano, setAno] = useState(anoAtual.toString());
 
     useEffect(() => {
         if (!localStorage.getItem('access-token')) {
