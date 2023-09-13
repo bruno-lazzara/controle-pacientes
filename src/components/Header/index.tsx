@@ -21,7 +21,7 @@ export default function Header() {
 
     return (
         <>
-            <AppBar position="static" sx={{ backgroundColor: 'lightpink' }}>
+            <AppBar position="static" sx={{ backgroundColor: '#b6acd1' }}>
                 <Container maxWidth="lg">
                     <Toolbar>
                         <Box sx={{ flexGrow: 1, display: 'flex' }}>

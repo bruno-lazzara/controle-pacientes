@@ -1,26 +1,20 @@
 import { useEffect, useState } from "react";
-import http from "../../http";
-import IPaciente from "../../interfaces/IPaciente";
-import { Button, FormControl, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled } from "@mui/material";
 import { Navigate } from "react-router-dom";
 import SelectStatusSessao from "../../components/SelectStatusSessao";
 import SelectNovoPaciente from "../../components/SelectNovoPaciente";
 import usePacientes from "../../state/hooks/usePacientes";
-import { useSetRecoilState } from "recoil";
-import { anoState, listaDePacientesState, mesState } from "../../state/atom";
 import useMes from "../../state/hooks/useMes";
 import useAno from "../../state/hooks/useAno";
+import FormMesAno from "../../components/FormMesAno";
+import useAtualizarPacientes from "../../state/hooks/useAtualizarPacientes";
 
 export default function Sessoes() {
     const mes = useMes();
     const ano = useAno();
-    const setMes = useSetRecoilState<string>(mesState);
-    const setAno = useSetRecoilState<string>(anoState);
-
     const pacientes = usePacientes();
-    const setPacientes = useSetRecoilState<IPaciente[]>(listaDePacientesState);
-
     const [redirect, setRedirect] = useState(false);
+    const atualizaListaPacientes = useAtualizarPacientes();
 
     useEffect(() => {
         if (!localStorage.getItem('access-token')) {
@@ -29,23 +23,8 @@ export default function Sessoes() {
         }
         // TODO verificar validade do token na API, e redirecionar para tela de login se já estiver inválido
 
-        buscarPacientes();
+        atualizaListaPacientes();
     }, []);
-
-    async function buscarPacientes() {
-        try {
-            const config = {
-                headers: {
-                    'x-access-token': localStorage.getItem('access-token')
-                }
-            };
-
-            const resposta = await http.get<IPaciente[]>(`/pacientes/${mes}/${ano}`, config);
-            setPacientes(resposta.data);
-        } catch (err) {
-            alert('Erro ao buscar sessões');
-        }
-    }
 
     if (redirect) {
         return <Navigate to={'/'} />
@@ -63,54 +42,11 @@ export default function Sessoes() {
 
     return (
         <>
-            {/* TODO transformar este formulário em componente e usar Recoil para mudar o estado do array de pacientes */}
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="mes-sessao-label">Mês</InputLabel>
-                <Select
-                    labelId="mes-sessao-label"
-                    id="mes-sessao"
-                    value={mes}
-                    label="Mês"
-                    onChange={evento => setMes(evento.target.value)}
-                >
-                    <MenuItem value={1}>01</MenuItem>
-                    <MenuItem value={2}>02</MenuItem>
-                    <MenuItem value={3}>03</MenuItem>
-                    <MenuItem value={4}>04</MenuItem>
-                    <MenuItem value={5}>05</MenuItem>
-                    <MenuItem value={6}>06</MenuItem>
-                    <MenuItem value={7}>07</MenuItem>
-                    <MenuItem value={8}>08</MenuItem>
-                    <MenuItem value={9}>09</MenuItem>
-                    <MenuItem value={10}>10</MenuItem>
-                    <MenuItem value={11}>11</MenuItem>
-                    <MenuItem value={12}>12</MenuItem>
-                </Select>
-            </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="ano-sessao-label">Ano</InputLabel>
-                <Select
-                    labelId="ano-sessao-label"
-                    id="ano-sessao"
-                    value={ano}
-                    label="Mês"
-                    onChange={evento => setAno(evento.target.value)}
-                >
-                    <MenuItem value={2023}>2023</MenuItem>
-                    <MenuItem value={2024}>2024</MenuItem>
-                </Select>
-            </FormControl>
-            <Button
-                variant="contained"
-                sx={{ padding: '1rem', mt: '0.5rem', ml: '8px', height: '100%' }}
-                onClick={buscarPacientes}
-            >
-                Buscar
-            </Button>
+            <FormMesAno />
 
             <TableContainer component={Paper} sx={{ mt: '1.5rem' }}>
                 <Table>
-                    <TableHead sx={{ backgroundColor: 'lightpink' }}>
+                    <TableHead sx={{ backgroundColor: '#b6acd1' }}>
                         <TableRow>
                             <TableCell align='left'>Pacientes</TableCell>
                             <TableCell align='center'>Semana 1</TableCell>
@@ -143,7 +79,9 @@ export default function Sessoes() {
                                 <TableCell align='center'>
                                     <SelectStatusSessao paciente={paciente} semana={5} />
                                 </TableCell>
-                                <TableCell align='center'></TableCell>
+                                <TableCell align='center'>
+                                    {paciente.sessoes[0].valor_total_pago.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                                </TableCell>
                             </StyledTableRow>
                         )}
                         <StyledTableRow
