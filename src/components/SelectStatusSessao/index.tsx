@@ -1,4 +1,4 @@
-import { FormControl, Select, MenuItem } from "@mui/material";
+import { FormControl, Select, MenuItem, TableCell } from "@mui/material";
 import { useState } from "react";
 import IStatusSemana from "../../interfaces/IStatusSemana";
 import http from "../../http";
@@ -88,15 +88,34 @@ export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
         }
     }
 
+    function getCor() {
+        switch (valor) {
+            case 'NÃO TEVE':
+                return '#ffdbdb';
+            case 'PAGO':
+                return '#dbffe0';
+            case 'TEVE':
+                return '#fffedb';
+            case 'NO SHOW':
+                return '#fffedb';
+            default:
+                return '';
+        }
+    }
+
+    const cor = getCor();
+
     return (
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <Select value={valor} sx={{ fontSize: '0.875rem' }} onChange={evento => alteraStatusSemana(evento.target.value)}>
-                <MenuItem value='' sx={{ height: '36px' }}></MenuItem>
-                <MenuItem value={'NÃO TEVE'}>NÃO TEVE</MenuItem>
-                <MenuItem value={'TEVE'}>TEVE</MenuItem>
-                <MenuItem value={'NO SHOW'}>NO SHOW</MenuItem>
-                <MenuItem value={'PAGO'}>PAGO</MenuItem>
-            </Select>
-        </FormControl>
+        <TableCell align='center' sx={{ backgroundColor: cor }}>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <Select value={valor} sx={{ fontSize: '0.875rem' }} onChange={evento => alteraStatusSemana(evento.target.value)}>
+                    <MenuItem value='' sx={{ height: '36px' }}></MenuItem>
+                    <MenuItem value={'NÃO TEVE'}>NÃO TEVE</MenuItem>
+                    <MenuItem value={'TEVE'}>TEVE</MenuItem>
+                    <MenuItem value={'NO SHOW'}>NO SHOW</MenuItem>
+                    <MenuItem value={'PAGO'}>PAGO</MenuItem>
+                </Select>
+            </FormControl>
+        </TableCell>
     )
 }

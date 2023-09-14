@@ -65,21 +65,11 @@ export default function Sessoes() {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell align='left'>{paciente.nome}</TableCell>
-                                <TableCell align='center'>
-                                    <SelectStatusSessao paciente={paciente} semana={1} />
-                                </TableCell>
-                                <TableCell align='center'>
-                                    <SelectStatusSessao paciente={paciente} semana={2} />
-                                </TableCell>
-                                <TableCell align='center'>
-                                    <SelectStatusSessao paciente={paciente} semana={3} />
-                                </TableCell>
-                                <TableCell align='center'>
-                                    <SelectStatusSessao paciente={paciente} semana={4} />
-                                </TableCell>
-                                <TableCell align='center'>
-                                    <SelectStatusSessao paciente={paciente} semana={5} />
-                                </TableCell>
+                                <SelectStatusSessao paciente={paciente} semana={1} />
+                                <SelectStatusSessao paciente={paciente} semana={2} />
+                                <SelectStatusSessao paciente={paciente} semana={3} />
+                                <SelectStatusSessao paciente={paciente} semana={4} />
+                                <SelectStatusSessao paciente={paciente} semana={5} />
                                 <TableCell align='center'>
                                     {paciente.sessoes[0].valor_total_pago.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                                 </TableCell>
@@ -88,10 +78,10 @@ export default function Sessoes() {
                         <StyledTableRow
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell colSpan={5}>
+                            <TableCell colSpan={4}>
                                 <SelectNovoPaciente mes={mes} ano={ano} />
                             </TableCell>
-                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>
+                            <TableCell colSpan={2} align='right' sx={{ fontWeight: 'bold' }}>
                                 TOTAL APÓS DESCONTOS
                             </TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>

@@ -23,7 +23,7 @@ export default function Header() {
         <>
             <AppBar position="static" sx={{ backgroundColor: '#b6acd1' }}>
                 <Container maxWidth="lg">
-                    <Toolbar>
+                    <Toolbar sx={{ '@media (min-width:600px)': { p: 0 } }}>
                         <Box sx={{ flexGrow: 1, display: 'flex' }}>
                             <Link component={RouterLink} to={`/admin/sessoes`} sx={{ textDecoration: 'none' }}>
                                 <Button sx={{ my: 2, color: 'black' }}>
