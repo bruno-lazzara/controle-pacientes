@@ -1,6 +1,6 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import http from "../../http";
 import IPaciente from "../../interfaces/IPaciente";
 import * as React from "react";
@@ -30,6 +30,7 @@ const config = {
 };
 
 export default function FormPaciente() {
+    const navigate = useNavigate();
     const parametros = useParams();
     const [nome, setNome] = useState('');
     const [valorSessao, setValorSessao] = useState('');
@@ -100,43 +101,67 @@ export default function FormPaciente() {
                     component={'form'}
                     onSubmit={upsertPaciente}
                 >
-                    <TextField
-                        value={nome}
-                        onChange={evento => setNome(evento.target.value)}
-                        label='Nome do Paciente'
-                        variant='standard'
-                        sx={{ m: 3, ml: 0, minWidth: 300 }}
-                        required
-                    />
+                    <Grid container spacing={2} mt={1}>
+                        <Grid md={8}>
+                            <TextField
+                                value={nome}
+                                onChange={evento => setNome(evento.target.value)}
+                                label='Nome do Paciente'
+                                variant='standard'
+                                sx={{ mt: 3, ml: 2, minWidth: '95%' }}
+                                required
+                            />
+                        </Grid>
 
-                    <TextField
-                        label="Valor da Sessão"
-                        value={valorSessao}
-                        onChange={evento => setValorSessao(evento.target.value)}
-                        InputProps={{
-                            inputComponent: NumericFormatCustom as any,
-                        }}
-                        variant="standard"
-                        sx={{ m: 3 }}
-                        required
-                    />
+                        <Grid md={2}>
+                            <TextField
+                                label="Valor da Sessão"
+                                value={valorSessao}
+                                onChange={evento => setValorSessao(evento.target.value)}
+                                InputProps={{
+                                    inputComponent: NumericFormatCustom as any,
+                                }}
+                                variant="standard"
+                                sx={{ m: 3 }}
+                                required
+                            />
+                        </Grid>
 
-                    <FormControl variant="standard" sx={{ m: 3, minWidth: 120 }}>
-                        <InputLabel id="desconta-imposto-label">Desconta imposto?</InputLabel>
-                        <Select
-                            labelId="desconta-imposto-label"
-                            id="desconta-imposto"
-                            value={descontaImposto}
-                            onChange={alterarDescontaImposto}
-                            label="Desconta imposto?"
-                            required
-                        >
-                            <MenuItem value={'false'}>Não</MenuItem>
-                            <MenuItem value={'true'}>Sim</MenuItem>
-                        </Select>
-                    </FormControl>
+                        <Grid md={2}>
+                            <FormControl variant="standard" sx={{ mt: 3, minWidth: 120 }}>
+                                <InputLabel id="desconta-imposto-label">Desconta imposto?</InputLabel>
+                                <Select
+                                    labelId="desconta-imposto-label"
+                                    id="desconta-imposto"
+                                    value={descontaImposto}
+                                    onChange={alterarDescontaImposto}
+                                    label="Desconta imposto?"
+                                    required
+                                >
+                                    <MenuItem value={'false'}>Não</MenuItem>
+                                    <MenuItem value={'true'}>Sim</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
 
-                    <Button type='submit' variant='contained' sx={{ padding: '1rem', mt: '1rem', ml: 3, height: '100%' }}>Salvar</Button>
+                        <Grid md={4}>
+                            <Button
+                                type='submit'
+                                variant='contained'
+                                sx={{ padding: '1rem', ml: 2 }}
+                            >
+                                Salvar
+                            </Button>
+                            <Button
+                                variant='contained'
+                                color='secondary'
+                                sx={{ padding: '1rem', ml: 2 }}
+                                onClick={() => { navigate(-1); }}
+                            >
+                                Voltar
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Box>
             </Box>
         </>
