@@ -9,6 +9,7 @@ import useAno from "../../state/hooks/useAno";
 import FormMesAno from "../../components/FormMesAno";
 import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
 import ValorTotalNoMes from "../../components/ValorTotalNoMes";
+import BotaoRemoverSessao from "../../components/BotaoRemoverSessao";
 
 export default function Sessoes() {
     const mes = useMes();
@@ -49,6 +50,7 @@ export default function Sessoes() {
                 <Table>
                     <TableHead sx={{ backgroundColor: '#b6acd1' }}>
                         <TableRow>
+                            <TableCell align='center'></TableCell>
                             <TableCell align='left'>Pacientes</TableCell>
                             <TableCell align='center'>Semana 1</TableCell>
                             <TableCell align='center'>Semana 2</TableCell>
@@ -64,6 +66,9 @@ export default function Sessoes() {
                                 key={paciente._id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
+                                <TableCell align='center' sx={{ px: '8px' }}>
+                                    <BotaoRemoverSessao idPaciente={paciente._id} idSessao={paciente.sessoes[0]._id} />
+                                </TableCell>
                                 <TableCell align='left'>{paciente.nome}</TableCell>
                                 <SelectStatusSessao paciente={paciente} semana={1} />
                                 <SelectStatusSessao paciente={paciente} semana={2} />
