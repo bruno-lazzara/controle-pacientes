@@ -35,6 +35,11 @@ export default function Header() {
                                     Pacientes
                                 </Button>
                             </Link>
+                            <Link component={RouterLink} to={'/admin/parametros'} sx={{ textDecoration: 'none' }}>
+                                <Button sx={{ my: 2, color: 'black' }}>
+                                    Parâmetros
+                                </Button>
+                            </Link>
                             <Button sx={{ my: 2, color: 'black', marginLeft: 'auto' }} onClick={() => logout()}>
                                 Logout
                             </Button>
