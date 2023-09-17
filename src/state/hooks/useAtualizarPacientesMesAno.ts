@@ -1,16 +1,18 @@
 import { useSetRecoilState } from "recoil"
 import IPaciente from "../../interfaces/IPaciente"
-import { pacientesMesAnoState } from "../atom"
+import { carregandoState, pacientesMesAnoState } from "../atom"
 import useMes from "./useMes";
 import useAno from "./useAno";
 import http from "../../http";
 
 const useAtualizarPacientesMesAno = () => {
     const setPacientes = useSetRecoilState<IPaciente[]>(pacientesMesAnoState);
+    const setCarregando = useSetRecoilState<boolean>(carregandoState);
     const mes = useMes();
     const ano = useAno();
 
     return async () => {
+        setCarregando(true);
         try {
             const config = {
                 headers: {
@@ -24,6 +26,7 @@ const useAtualizarPacientesMesAno = () => {
         } catch (err) {
             setPacientes([]);
         }
+        setCarregando(false);
     }
 }
 

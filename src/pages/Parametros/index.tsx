@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import IParametro from "../../interfaces/IParametro";
 import http from "../../http";
 import { useSetRecoilState } from "recoil";
-import { parametroDescontoState } from "../../state/atom";
+import { carregandoState, parametroDescontoState } from "../../state/atom";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(even)': {
@@ -20,9 +20,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function Parametros() {
     const [parametros, setParametros] = useState<IParametro[]>([]);
     const atualizaDescontoMensal = useSetRecoilState<number>(parametroDescontoState);
+    const atualizaCarregando = useSetRecoilState<boolean>(carregandoState);
 
     useEffect(() => {
         async function buscaParametros() {
+            atualizaCarregando(true);
             try {
                 const config = {
                     headers: {
@@ -33,8 +35,10 @@ export default function Parametros() {
                 const resultado = await http.get<IParametro[]>('/parametros', config);
                 setParametros(resultado.data);
                 atualizaDescontoMensal(resultado.data.filter(p => p.nome === 'Custo Mensal')[0].valor);
+                atualizaCarregando(false);
             } catch (err) {
                 setParametros([]);
+                atualizaCarregando(false);
             }
         }
         buscaParametros();

@@ -2,6 +2,8 @@ import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 import http from "../../http";
 import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
+import { useSetRecoilState } from "recoil";
+import { carregandoState } from "../../state/atom";
 
 interface INovoPaciente {
     _id: string,
@@ -16,12 +18,14 @@ interface Props {
 export default function SelectNovoPaciente({ mes, ano }: Props) {
     const [novosPacientes, setNovosPacientes] = useState<INovoPaciente[]>([]);
     const atualizarListaPacientes = useAtualizarPacientesMesAno();
+    const setCarregando = useSetRecoilState<boolean>(carregandoState);
 
     useEffect(() => {
         buscarNovosPacientes();
     }, []);
 
     async function buscarNovosPacientes() {
+        setCarregando(true);
         try {
             const config = {
                 headers: {
@@ -34,9 +38,11 @@ export default function SelectNovoPaciente({ mes, ano }: Props) {
         } catch (err) {
             setNovosPacientes([]);
         }
+        setCarregando(false);
     }
 
     const adicionaSessaoPaciente = async (idPaciente: string) => {
+        setCarregando(true);
         try {
             const config = {
                 headers: {
@@ -63,6 +69,7 @@ export default function SelectNovoPaciente({ mes, ano }: Props) {
         } catch (err) {
             alert('Erro ao adicionar paciente no mês');
         }
+        setCarregando(false);
     }
 
     return (

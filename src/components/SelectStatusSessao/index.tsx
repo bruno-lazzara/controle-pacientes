@@ -4,16 +4,19 @@ import IStatusSemana from "../../interfaces/IStatusSemana";
 import http from "../../http";
 import IPaciente from "../../interfaces/IPaciente";
 import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
+import { useSetRecoilState } from "recoil";
+import { carregandoState } from "../../state/atom";
 
 interface SessaoProp {
     paciente: IPaciente,
-    semana: number
+    semana: 1 | 2 | 3 | 4 | 5
 }
 
 export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
     const [statusSemana, setStatusSemana] = useState<IStatusSemana>(paciente.sessoes[0].status_semana);
     const [valor, setValor] = useState<string>(getValor());
     const atualizaListaPacientes = useAtualizarPacientesMesAno();
+    const setCarregando = useSetRecoilState<boolean>(carregandoState);
 
     function getValor() {
         switch (semana) {
@@ -27,12 +30,11 @@ export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
                 return statusSemana.semana_4 ?? '';
             case 5:
                 return statusSemana.semana_5 ?? '';
-            default:
-                return '';
         }
     }
 
     async function alteraStatusSemana(status: string) {
+        setCarregando(true);
         setValor(status);
         let novoStatusSemana = {
             semana_1: statusSemana.semana_1,
@@ -57,8 +59,6 @@ export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
             case 5:
                 novoStatusSemana.semana_5 = status;
                 break;
-            default:
-                return '';
         }
 
         try {
@@ -86,6 +86,7 @@ export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
         } catch (err) {
             alert('Erro ao atualizar sessão semanal do paciente');
         }
+        setCarregando(false);
     }
 
     function getCor() {

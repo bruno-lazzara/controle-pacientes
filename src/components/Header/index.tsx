@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { Link } from '@mui/material';
 import { Navigate, Outlet, Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
+import Loading from '../Loading';
 
 export default function Header() {
     const [redirect, setRedirect] = useState(false);
@@ -50,6 +51,7 @@ export default function Header() {
 
             <Box>
                 <Container maxWidth='lg' sx={{ mt: 1, p: 2 }}>
+                    <Loading />
                     <Outlet />
                 </Container>
             </Box>

@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import http from "../../http";
 import IPaciente from "../../interfaces/IPaciente";
 import InputValorSessao from "../../components/InputValorSessao";
+import { useSetRecoilState } from "recoil";
+import { carregandoState } from "../../state/atom";
 
 export default function FormPaciente() {
     const navigate = useNavigate();
@@ -11,9 +13,11 @@ export default function FormPaciente() {
     const [nome, setNome] = useState('');
     const [valorSessao, setValorSessao] = useState('');
     const [descontaImposto, setDescontaImposto] = useState(false);
+    const setCarregando = useSetRecoilState<boolean>(carregandoState);
 
     useEffect(() => {
         async function buscarPaciente(id: string) {
+            setCarregando(true);
             try {
                 const config = {
                     headers: {
@@ -31,6 +35,7 @@ export default function FormPaciente() {
                 setValorSessao('');
                 setDescontaImposto(false);
             }
+            setCarregando(false);
         }
 
         if (parametros.id) {
@@ -48,6 +53,8 @@ export default function FormPaciente() {
 
     const upsertPaciente = async (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault();
+
+        setCarregando(true);
 
         const valorSessaoFormatado = valorSessao.replace('R$ ', '').replace(',', '.');
         let paciente = {
@@ -85,6 +92,7 @@ export default function FormPaciente() {
         } catch (err) {
             alert('Erro na operação');
         }
+        setCarregando(false);
     }
 
     return (

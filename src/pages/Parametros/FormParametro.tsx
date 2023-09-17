@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import IParametro from "../../interfaces/IParametro";
 import http from "../../http";
 import { Box, Typography, Grid, TextField, Button } from "@mui/material";
+import { useSetRecoilState } from "recoil";
+import { carregandoState } from "../../state/atom";
 
 export default function FormParametro() {
     const parametrosUrl = useParams();
@@ -10,9 +12,11 @@ export default function FormParametro() {
     const [nome, setNome] = useState<string>('');
     const [valor, setValor] = useState<string>('');
     const navigate = useNavigate();
+    const setCarregando = useSetRecoilState<boolean>(carregandoState);
 
     useEffect(() => {
         async function buscarParametro(id: string) {
+            setCarregando(true);
             try {
                 const config = {
                     headers: {
@@ -28,6 +32,7 @@ export default function FormParametro() {
                 setValor('');
                 setNaoEncontrado(true);
             }
+            setCarregando(false);
         }
 
         if (parametrosUrl.id) {
@@ -38,6 +43,7 @@ export default function FormParametro() {
     async function atualizarParametro(evento: React.FormEvent<HTMLFormElement>) {
         evento.preventDefault();
 
+        setCarregando(true);
         try {
             const config = {
                 headers: {
@@ -52,6 +58,7 @@ export default function FormParametro() {
         } catch (err) {
             alert('Erro ao atualizar parâmetro');
         }
+        setCarregando(false);
     }
 
     if (!naoEncontrado) {

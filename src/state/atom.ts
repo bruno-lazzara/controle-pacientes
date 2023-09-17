@@ -26,3 +26,8 @@ export const parametroDescontoState = atom<number>({
     key: 'parametroDescontoState',
     default: parametroDescontoAsync
 })
+
+export const carregandoState = atom<boolean>({
+    key: 'carregandoState',
+    default: false
+})
