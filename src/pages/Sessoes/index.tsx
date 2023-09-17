@@ -83,7 +83,7 @@ export default function Sessoes() {
                         <StyledTableRow
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell colSpan={4}>
+                            <TableCell colSpan={5}>
                                 <SelectNovoPaciente mes={mes} ano={ano} />
                             </TableCell>
                             <TableCell colSpan={2} align='right' sx={{ fontWeight: 'bold' }}>
