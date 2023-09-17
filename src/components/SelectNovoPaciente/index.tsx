@@ -4,18 +4,17 @@ import http from "../../http";
 import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
 import { useSetRecoilState } from "recoil";
 import { carregandoState } from "../../state/atom";
+import useMes from "../../state/hooks/useMes";
+import useAno from "../../state/hooks/useAno";
 
 interface INovoPaciente {
     _id: string,
     nome: string
 }
 
-interface Props {
-    mes: string,
-    ano: string
-}
-
-export default function SelectNovoPaciente({ mes, ano }: Props) {
+export default function SelectNovoPaciente() {
+    const mes = useMes();
+    const ano = useAno();
     const [novosPacientes, setNovosPacientes] = useState<INovoPaciente[]>([]);
     const atualizarListaPacientes = useAtualizarPacientesMesAno();
     const setCarregando = useSetRecoilState<boolean>(carregandoState);

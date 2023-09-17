@@ -4,14 +4,14 @@ import { Navigate } from "react-router-dom";
 import SelectStatusSessao from "../../components/SelectStatusSessao";
 import SelectNovoPaciente from "../../components/SelectNovoPaciente";
 import usePacientesMesAno from "../../state/hooks/usePacientesMesAno";
-import useMes from "../../state/hooks/useMes";
-import useAno from "../../state/hooks/useAno";
 import FormMesAno from "../../components/FormMesAno";
 import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
 import ValorTotalNoMes from "../../components/ValorTotalNoMes";
 import BotaoRemoverSessao from "../../components/BotaoRemoverSessao";
 import { useSetRecoilState } from "recoil";
 import { carregandoState } from "../../state/atom";
+import useAno from "../../state/hooks/useAno";
+import useMes from "../../state/hooks/useMes";
 
 export default function Sessoes() {
     const mes = useMes();
@@ -35,7 +35,7 @@ export default function Sessoes() {
         }
 
         carregarPacientes();
-    }, []);
+    }, [mes, ano]);
 
     if (redirect) {
         return <Navigate to={'/'} />
@@ -93,7 +93,7 @@ export default function Sessoes() {
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell colSpan={5}>
-                                <SelectNovoPaciente mes={mes} ano={ano} />
+                                <SelectNovoPaciente />
                             </TableCell>
                             <TableCell colSpan={2} align='right' sx={{ fontWeight: 'bold' }}>
                                 TOTAL APÓS DESCONTOS

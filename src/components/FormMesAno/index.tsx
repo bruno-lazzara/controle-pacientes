@@ -1,23 +1,14 @@
-import { FormControl, InputLabel, Select, MenuItem, Button } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useSetRecoilState } from "recoil";
-import { mesState, anoState, carregandoState } from "../../state/atom";
+import { mesState, anoState } from "../../state/atom";
 import useAno from "../../state/hooks/useAno";
 import useMes from "../../state/hooks/useMes";
-import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
 
 export default function FormMesAno() {
     const mes = useMes();
     const ano = useAno();
     const setMes = useSetRecoilState<string>(mesState);
     const setAno = useSetRecoilState<string>(anoState);
-    const setCarregando = useSetRecoilState<boolean>(carregandoState);
-    const atualizaListaPacientes = useAtualizarPacientesMesAno();
-
-    async function buscarPacientes() {
-        setCarregando(true);
-        await atualizaListaPacientes();
-        setCarregando(false);
-    }
 
     return (
         <>
@@ -57,13 +48,6 @@ export default function FormMesAno() {
                     <MenuItem value={2024}>2024</MenuItem>
                 </Select>
             </FormControl>
-            <Button
-                variant="contained"
-                sx={{ padding: '1rem', mt: '0.5rem', ml: '8px', height: '100%', backgroundColor: '#6899b6' }}
-                onClick={buscarPacientes}
-            >
-                Buscar
-            </Button>
         </>
     )
 }
