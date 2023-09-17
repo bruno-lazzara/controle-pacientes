@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-    baseURL: 'https://api-controle-pacientes.vercel.app'
+    baseURL: process.env.REACT_APP_API_URL_PROD
 });
 
 export default http;
