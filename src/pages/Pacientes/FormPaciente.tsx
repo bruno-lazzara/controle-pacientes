@@ -3,25 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import http from "../../http";
 import IPaciente from "../../interfaces/IPaciente";
-import * as React from "react";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
-
-const NumericFormatCustom = React.forwardRef<NumericFormatProps>(
-    function NumericFormatCustom(props, ref) {
-        const { ...other } = props;
-
-        return (
-            <NumericFormat
-                {...other}
-                getInputRef={ref}
-                thousandSeparator='.'
-                decimalSeparator=','
-                valueIsNumericString
-                prefix='R$ '
-            />
-        );
-    },
-);
+import InputValorSessao from "../../components/InputValorSessao";
 
 export default function FormPaciente() {
     const navigate = useNavigate();
@@ -125,17 +107,7 @@ export default function FormPaciente() {
                     </Grid>
 
                     <Grid md={2}>
-                        <TextField
-                            label="Valor da Sessão"
-                            value={valorSessao}
-                            onChange={evento => setValorSessao(evento.target.value)}
-                            InputProps={{
-                                inputComponent: NumericFormatCustom as any,
-                            }}
-                            variant="standard"
-                            sx={{ m: 3 }}
-                            required
-                        />
+                        <InputValorSessao valor={valorSessao} setValorSessao={setValorSessao} />
                     </Grid>
 
                     <Grid md={2}>
