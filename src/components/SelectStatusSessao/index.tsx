@@ -78,7 +78,7 @@ export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
 
             if (resultado.status === 200) {
                 setStatusSemana(novoStatusSemana);
-                atualizaListaPacientes();
+                await atualizaListaPacientes();
             }
             else {
                 throw new Error();
