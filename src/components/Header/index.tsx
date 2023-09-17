@@ -7,12 +7,24 @@ import { Link } from '@mui/material';
 import { Navigate, Outlet, Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
 import Loading from '../Loading';
+import { useResetRecoilState } from 'recoil';
+import { anoState, mesState, pacientesMesAnoState, pacientesState, parametroDescontoState } from '../../state/atom';
 
 export default function Header() {
     const [redirect, setRedirect] = useState(false);
+    const resetMes = useResetRecoilState(mesState);
+    const resetAno = useResetRecoilState(anoState);
+    const resetPacientes = useResetRecoilState(pacientesState);
+    const resetPacientesMesAno = useResetRecoilState(pacientesMesAnoState);
+    const resetParametroDesconto = useResetRecoilState(parametroDescontoState);
 
     const logout = () => {
         localStorage.clear();
+        resetMes();
+        resetAno();
+        resetPacientes();
+        resetPacientesMesAno();
+        resetParametroDesconto();
         setRedirect(true);
     }
 
