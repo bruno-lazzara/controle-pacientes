@@ -25,7 +25,6 @@ export default function SelectNovoPaciente({ mes, ano }: Props) {
     }, []);
 
     async function buscarNovosPacientes() {
-        setCarregando(true);
         try {
             const config = {
                 headers: {
@@ -38,7 +37,6 @@ export default function SelectNovoPaciente({ mes, ano }: Props) {
         } catch (err) {
             setNovosPacientes([]);
         }
-        setCarregando(false);
     }
 
     const adicionaSessaoPaciente = async (idPaciente: string) => {

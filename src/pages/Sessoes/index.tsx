@@ -10,6 +10,8 @@ import FormMesAno from "../../components/FormMesAno";
 import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
 import ValorTotalNoMes from "../../components/ValorTotalNoMes";
 import BotaoRemoverSessao from "../../components/BotaoRemoverSessao";
+import { useSetRecoilState } from "recoil";
+import { carregandoState } from "../../state/atom";
 
 export default function Sessoes() {
     const mes = useMes();
@@ -17,6 +19,7 @@ export default function Sessoes() {
     const pacientes = usePacientesMesAno();
     const [redirect, setRedirect] = useState(false);
     const atualizaListaPacientes = useAtualizarPacientesMesAno();
+    const setCarregando = useSetRecoilState<boolean>(carregandoState);
 
     useEffect(() => {
         if (!localStorage.getItem('access-token')) {
@@ -25,7 +28,13 @@ export default function Sessoes() {
         }
         // TODO verificar validade do token na API, e redirecionar para tela de login se já estiver inválido
 
-        atualizaListaPacientes();
+        async function carregarPacientes() {
+            setCarregando(true);
+            await atualizaListaPacientes();
+            setCarregando(false);
+        }
+
+        carregarPacientes();
     }, []);
 
     if (redirect) {

@@ -1,6 +1,6 @@
 import { FormControl, InputLabel, Select, MenuItem, Button } from "@mui/material";
 import { useSetRecoilState } from "recoil";
-import { mesState, anoState } from "../../state/atom";
+import { mesState, anoState, carregandoState } from "../../state/atom";
 import useAno from "../../state/hooks/useAno";
 import useMes from "../../state/hooks/useMes";
 import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
@@ -10,10 +10,13 @@ export default function FormMesAno() {
     const ano = useAno();
     const setMes = useSetRecoilState<string>(mesState);
     const setAno = useSetRecoilState<string>(anoState);
+    const setCarregando = useSetRecoilState<boolean>(carregandoState);
     const atualizaListaPacientes = useAtualizarPacientesMesAno();
 
-    function buscarPacientes() {
-        atualizaListaPacientes();
+    async function buscarPacientes() {
+        setCarregando(true);
+        await atualizaListaPacientes();
+        setCarregando(false);
     }
 
     return (
