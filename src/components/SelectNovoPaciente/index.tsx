@@ -61,7 +61,7 @@ export default function SelectNovoPaciente({ mes, ano }: Props) {
             );
 
             if (resultado.status === 200) {
-                atualizarListaPacientes();
+                await atualizarListaPacientes();
             }
             else {
                 throw new Error();

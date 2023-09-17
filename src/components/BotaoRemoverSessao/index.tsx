@@ -10,12 +10,6 @@ interface Props {
     idSessao: string
 }
 
-const config = {
-    headers: {
-        'x-access-token': localStorage.getItem('access-token')
-    }
-};
-
 export default function BotaoRemoverSessao({ idPaciente, idSessao }: Props) {
     const atualizarListaPacientes = useAtualizarPacientesMesAno();
     const setCarregando = useSetRecoilState<boolean>(carregandoState);
@@ -24,13 +18,19 @@ export default function BotaoRemoverSessao({ idPaciente, idSessao }: Props) {
         try {
             if (window.confirm('Esta operação irá remover as sessões do paciente no mês.')) {
                 setCarregando(true);
+
+                const config = {
+                    headers: {
+                        'x-access-token': localStorage.getItem('access-token')
+                    }
+                };
                 const resultado = await http.delete(`/pacientes/${idPaciente}/${idSessao}`, config);
                 if (resultado.status !== 200) {
                     setCarregando(false);
                     alert('Erro ao realizar operação');
                     return;
                 }
-                atualizarListaPacientes();
+                await atualizarListaPacientes();
                 setCarregando(false);
             }
         } catch (err) {
