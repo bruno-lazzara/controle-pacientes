@@ -3,12 +3,18 @@ import { Navigate } from 'react-router-dom';
 import http from '../../http';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { Container, CssBaseline, Box, Avatar, Typography, TextField, Button } from '@mui/material';
+import Loading from '../../components/Loading';
+import { useSetRecoilState } from 'recoil';
+import { carregandoState } from '../../state/atom';
 
 export default function Login() {
     const [redirect, setRedirect] = useState(false);
+    const setCarregando = useSetRecoilState(carregandoState);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setCarregando(true);
+
         const data = new FormData(event.currentTarget);
         const credenciais = {
             email: data.get('email'),
@@ -31,14 +37,17 @@ export default function Login() {
         } catch (err) {
             alert('Email ou senha incorretos');   
         }
+        setCarregando(false);
     };
     
     useEffect(() => {
+        setCarregando(true);
         if (localStorage.getItem('access-token')) {
             setRedirect(true);
             return;
         }
         localStorage.clear();
+        setCarregando(false);
     }, []);
 
     if (redirect) {
@@ -47,6 +56,7 @@ export default function Login() {
 
     return (
         <Container component="main" maxWidth="xs">
+            <Loading />
             <CssBaseline />
             <Box
                 sx={{
