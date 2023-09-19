@@ -10,13 +10,7 @@ const usePacientes = () => {
     return async () => {
         setCarregando(true);
         try {
-            const config = {
-                headers: {
-                    'x-access-token': localStorage.getItem('access-token')
-                }
-            };
-
-            const resposta = await http.get<IPaciente[]>('/pacientes', config);
+            const resposta = await http.get<IPaciente[]>('/pacientes');
 
             setCarregando(false);
             return setPacientes(resposta.data);

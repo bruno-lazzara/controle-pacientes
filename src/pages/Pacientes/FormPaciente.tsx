@@ -19,13 +19,7 @@ export default function FormPaciente() {
         async function buscarPaciente(id: string) {
             setCarregando(true);
             try {
-                const config = {
-                    headers: {
-                        'x-access-token': localStorage.getItem('access-token')
-                    }
-                };
-
-                const resposta = await http.get<IPaciente>(`/pacientes/${id}`, config);
+                const resposta = await http.get<IPaciente>(`/pacientes/${id}`);
 
                 setNome(resposta.data.nome);
                 setValorSessao(resposta.data.valor_secao.toString());
@@ -71,22 +65,10 @@ export default function FormPaciente() {
         try {
             console.log(paciente);
             if (parametros.id) {
-                const config = {
-                    headers: {
-                        'x-access-token': localStorage.getItem('access-token')
-                    }
-                };
-
-                const resposta = await http.put(`/pacientes/${parametros.id}`, paciente, config);
+                const resposta = await http.put(`/pacientes/${parametros.id}`, paciente);
                 alert(resposta.status === 200 ? 'Paciente atualizado!' : 'Erro ao atualizar paciente');
             } else {
-                const config = {
-                    headers: {
-                        'x-access-token': localStorage.getItem('access-token')
-                    }
-                };
-
-                const resposta = await http.post('/pacientes', paciente, config);
+                const resposta = await http.post('/pacientes', paciente);
                 alert(resposta.status === 201 ? 'Paciente cadastrado!' : 'Erro ao cadastrar paciente');
             }
         } catch (err) {
