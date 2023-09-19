@@ -6,13 +6,7 @@ export const parametroDescontoAsync = selector({
     key: 'parametroDescontoAsync',
     get: async () => {
         try {
-            const config = {
-                headers: {
-                    'x-access-token': localStorage.getItem('access-token')
-                }
-            };
-
-            const resultado = await http.get<IParametro>('/parametros/Custo Mensal', config);
+            const resultado = await http.get<IParametro>('/parametros/Custo Mensal');
             return resultado.data.valor;
         } catch (err) {
             return 0;

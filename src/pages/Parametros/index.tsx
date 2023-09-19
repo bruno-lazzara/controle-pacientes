@@ -26,13 +26,7 @@ export default function Parametros() {
         async function buscaParametros() {
             atualizaCarregando(true);
             try {
-                const config = {
-                    headers: {
-                        'x-access-token': localStorage.getItem('access-token')
-                    }
-                };
-
-                const resultado = await http.get<IParametro[]>('/parametros', config);
+                const resultado = await http.get<IParametro[]>('/parametros');
                 setParametros(resultado.data);
                 atualizaDescontoMensal(resultado.data.filter(p => p.nome === 'Custo Mensal')[0].valor);
                 atualizaCarregando(false);

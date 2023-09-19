@@ -19,12 +19,7 @@ export default function BotaoRemoverSessao({ idPaciente, idSessao }: Props) {
             if (window.confirm('Esta operação irá remover as sessões do paciente no mês.')) {
                 setCarregando(true);
 
-                const config = {
-                    headers: {
-                        'x-access-token': localStorage.getItem('access-token')
-                    }
-                };
-                const resultado = await http.delete(`/pacientes/${idPaciente}/${idSessao}`, config);
+                const resultado = await http.delete(`/pacientes/${idPaciente}/${idSessao}`);
                 if (resultado.status !== 200) {
                     setCarregando(false);
                     alert('Erro ao realizar operação');

@@ -12,13 +12,7 @@ const useAtualizarPacientesMesAno = () => {
 
     return async () => {
         try {
-            const config = {
-                headers: {
-                    'x-access-token': localStorage.getItem('access-token')
-                }
-            };
-
-            const resposta = await http.get<IPaciente[]>(`/pacientes/${mes}/${ano}`, config);
+            const resposta = await http.get<IPaciente[]>(`/pacientes/${mes}/${ano}`);
 
             setPacientes(resposta.data);
         } catch (err) {

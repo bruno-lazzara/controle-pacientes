@@ -18,13 +18,7 @@ export default function FormParametro() {
         async function buscarParametro(id: string) {
             setCarregando(true);
             try {
-                const config = {
-                    headers: {
-                        'x-access-token': localStorage.getItem('access-token')
-                    }
-                };
-
-                const resposta = await http.get<IParametro>(`/parametros/porId/${id}`, config);
+                const resposta = await http.get<IParametro>(`/parametros/porId/${id}`);
                 setNome(resposta.data.nome);
                 setValor(resposta.data.valor.toString());
             } catch (err) {
@@ -45,15 +39,9 @@ export default function FormParametro() {
 
         setCarregando(true);
         try {
-            const config = {
-                headers: {
-                    'x-access-token': localStorage.getItem('access-token')
-                }
-            };
-
             const resposta = await http.put(`/parametros/${parametrosUrl.id}`, {
                 valor: Number(valor)
-            }, config);
+            });
             alert(resposta.status === 200 ? 'Parâmetro atualizado!' : 'Erro ao atualizar parâmetro');
         } catch (err) {
             alert('Erro ao atualizar parâmetro');

@@ -25,13 +25,7 @@ export default function SelectNovoPaciente() {
 
     async function buscarNovosPacientes() {
         try {
-            const config = {
-                headers: {
-                    'x-access-token': localStorage.getItem('access-token')
-                }
-            };
-
-            const resposta = await http.get<INovoPaciente[]>(`/pacientes/semsessao/${mes}/${ano}`, config);
+            const resposta = await http.get<INovoPaciente[]>(`/pacientes/semsessao/${mes}/${ano}`);
             setNovosPacientes(resposta.data);
         } catch (err) {
             setNovosPacientes([]);
@@ -41,20 +35,13 @@ export default function SelectNovoPaciente() {
     const adicionaSessaoPaciente = async (idPaciente: string) => {
         setCarregando(true);
         try {
-            const config = {
-                headers: {
-                    'x-access-token': localStorage.getItem('access-token')
-                }
-            };
-
             const resultado = await http.put(
                 '/pacientes/novasessao',
                 {
                     pacienteId: idPaciente,
                     mes: Number(mes),
                     ano: Number(ano)
-                },
-                config
+                }
             );
 
             if (resultado.status === 200) {

@@ -62,18 +62,11 @@ export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
         }
 
         try {
-            const config = {
-                headers: {
-                    'x-access-token': localStorage.getItem('access-token')
-                }
-            };
-
             const resultado = await http.put(
                 `/pacientes/${paciente._id}/${paciente.sessoes[0]._id}`,
                 {
                     status_semana: novoStatusSemana
-                },
-                config
+                }
             );
 
             if (resultado.status === 200) {
