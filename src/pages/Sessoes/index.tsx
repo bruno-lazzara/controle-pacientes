@@ -60,13 +60,14 @@ export default function Sessoes() {
                     <TableHead sx={{ backgroundColor: '#b6acd1' }}>
                         <TableRow>
                             <TableCell align='center'></TableCell>
-                            <TableCell align='left'>Pacientes</TableCell>
-                            <TableCell align='center'>Semana 1</TableCell>
-                            <TableCell align='center'>Semana 2</TableCell>
-                            <TableCell align='center'>Semana 3</TableCell>
-                            <TableCell align='center'>Semana 4</TableCell>
-                            <TableCell align='center'>Semana 5</TableCell>
-                            <TableCell align='center'>Total Recebido</TableCell>
+                            <TableCell align='left' sx={{ fontWeight: 'bold' }}>Pacientes</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 2</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 1</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 3</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 4</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 5</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Total Recebido</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Paciente Deve</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -87,6 +88,9 @@ export default function Sessoes() {
                                 <TableCell align='center'>
                                     {paciente.sessoes[0].valor_total_pago.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                                 </TableCell>
+                                <TableCell align='center'>
+                                    {paciente.sessoes[0].valor_total_devido.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                                </TableCell>
                             </StyledTableRow>
                         )}
                         <StyledTableRow
@@ -101,6 +105,7 @@ export default function Sessoes() {
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>
                                 <ValorTotalNoMes />
                             </TableCell>
+                            <TableCell></TableCell>
                         </StyledTableRow>
                     </TableBody>
                 </Table>
