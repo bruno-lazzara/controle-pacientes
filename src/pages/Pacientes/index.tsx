@@ -1,4 +1,4 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled } from "@mui/material";
+import { Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -25,7 +25,7 @@ export default function Pacientes() {
     }));
 
     return (
-        <>
+        <Container maxWidth='lg'>
             <Button
                 component={Link}
                 to={'/admin/pacientes/novo'}
@@ -39,10 +39,10 @@ export default function Pacientes() {
                 <Table size='small'>
                     <TableHead sx={{ backgroundColor: '#b6acd1' }}>
                         <TableRow>
-                            <TableCell align='left'>Nome</TableCell>
-                            <TableCell align='center'>Valor da sessão</TableCell>
-                            <TableCell align='center'>Desconta imposto?</TableCell>
-                            <TableCell align='center'>Editar</TableCell>
+                            <TableCell align='left' sx={{ fontWeight: 'bold' }}>Nome</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Valor da sessão</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Desconta imposto?</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Editar</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -69,6 +69,6 @@ export default function Pacientes() {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </>
+        </Container>
     )
 }

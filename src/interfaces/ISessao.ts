@@ -5,5 +5,6 @@ export default interface ISessao {
     mes: number
     ano: number
     valor_total_pago: number
+    valor_total_devido: number
     status_semana: IStatusSemana
 }
