@@ -16,8 +16,8 @@ export default function ValorTotalNoMes() {
     }
 
     return (
-        <>
+        <span style={valorTotalNoMes < 0 ? {color: 'red'} : {}}>
             {valorTotalNoMes.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-        </>
+        </span>
     )
 }
