@@ -61,8 +61,8 @@ export default function Sessoes() {
                         <TableRow>
                             <TableCell align='center'></TableCell>
                             <TableCell align='left' sx={{ fontWeight: 'bold' }}>Pacientes</TableCell>
-                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 2</TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 1</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 2</TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 3</TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 4</TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 5</TableCell>
