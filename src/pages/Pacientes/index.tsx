@@ -12,7 +12,7 @@ export default function Pacientes() {
 
     useEffect(() => {
         buscaPacientes();
-    }, []);
+    }, [buscaPacientes]);
 
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
         '&:nth-of-type(even)': {

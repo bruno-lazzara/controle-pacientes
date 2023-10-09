@@ -1,5 +1,5 @@
 import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import http from "../../http";
 import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
 import { useSetRecoilState } from "recoil";
@@ -12,25 +12,25 @@ interface INovoPaciente {
     nome: string
 }
 
-export default function SelectNovoPaciente() {
+function SelectNovoPaciente() {
     const mes = useMes();
     const ano = useAno();
     const [novosPacientes, setNovosPacientes] = useState<INovoPaciente[]>([]);
     const atualizarListaPacientes = useAtualizarPacientesMesAno();
     const setCarregando = useSetRecoilState<boolean>(carregandoState);
-
+    
     useEffect(() => {
-        buscarNovosPacientes();
-    }, []);
-
-    async function buscarNovosPacientes() {
-        try {
-            const resposta = await http.get<INovoPaciente[]>(`/pacientes/semsessao/${mes}/${ano}`);
-            setNovosPacientes(resposta.data);
-        } catch (err) {
-            setNovosPacientes([]);
+        async function buscarNovosPacientes() {
+            try {
+                const resposta = await http.get<INovoPaciente[]>(`/pacientes/semsessao/${mes}/${ano}`);
+                setNovosPacientes(resposta.data);
+            } catch (err) {
+                setNovosPacientes([]);
+            }
         }
-    }
+        
+        buscarNovosPacientes();
+    }, [mes, ano]);
 
     const adicionaSessaoPaciente = async (idPaciente: string) => {
         setCarregando(true);
@@ -45,7 +45,7 @@ export default function SelectNovoPaciente() {
             );
 
             if (resultado.status === 200) {
-                await atualizarListaPacientes();
+                await atualizarListaPacientes(mes, ano);
             }
             else {
                 throw new Error();
@@ -74,3 +74,5 @@ export default function SelectNovoPaciente() {
         </FormControl>
     )
 }
+
+export default memo(SelectNovoPaciente);

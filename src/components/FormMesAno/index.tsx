@@ -3,13 +3,14 @@ import { useSetRecoilState } from "recoil";
 import { mesState, anoState } from "../../state/atom";
 import useAno from "../../state/hooks/useAno";
 import useMes from "../../state/hooks/useMes";
+import { memo } from "react";
 
-export default function FormMesAno() {
+function FormMesAno() {
     const mes = useMes();
     const ano = useAno();
     const setMes = useSetRecoilState<string>(mesState);
     const setAno = useSetRecoilState<string>(anoState);
-
+    
     return (
         <>
             <FormControl sx={{ m: 1, ml: 0, minWidth: 120 }}>
@@ -51,3 +52,5 @@ export default function FormMesAno() {
         </>
     )
 }
+
+export default memo(FormMesAno);

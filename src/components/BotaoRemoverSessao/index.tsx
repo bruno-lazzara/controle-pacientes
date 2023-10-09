@@ -1,9 +1,11 @@
-import { Button } from "@mui/material"
+import { Button } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import http from "../../http";
 import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
 import { useSetRecoilState } from "recoil";
 import { carregandoState } from "../../state/atom";
+import useAno from "../../state/hooks/useAno";
+import useMes from "../../state/hooks/useMes";
 
 interface Props {
     idPaciente: string
@@ -11,6 +13,8 @@ interface Props {
 }
 
 export default function BotaoRemoverSessao({ idPaciente, idSessao }: Props) {
+    const mes = useMes();
+    const ano = useAno();
     const atualizarListaPacientes = useAtualizarPacientesMesAno();
     const setCarregando = useSetRecoilState<boolean>(carregandoState);
 
@@ -25,7 +29,7 @@ export default function BotaoRemoverSessao({ idPaciente, idSessao }: Props) {
                     alert('Erro ao realizar operação');
                     return;
                 }
-                await atualizarListaPacientes();
+                await atualizarListaPacientes(mes, ano);
                 setCarregando(false);
             }
         } catch (err) {

@@ -20,22 +20,21 @@ export default function Sessoes() {
     const [redirect, setRedirect] = useState(false);
     const atualizaListaPacientes = useAtualizarPacientesMesAno();
     const setCarregando = useSetRecoilState<boolean>(carregandoState);
-
+    
     useEffect(() => {
         if (!localStorage.getItem('access-token')) {
             setRedirect(true);
             return;
         }
-        // TODO verificar validade do token na API, e redirecionar para tela de login se já estiver inválido
 
         async function carregarPacientes() {
             setCarregando(true);
-            await atualizaListaPacientes();
+            await atualizaListaPacientes(mes, ano);
             setCarregando(false);
         }
 
         carregarPacientes();
-    }, [mes, ano]);
+    }, [mes, ano, atualizaListaPacientes, setCarregando]);
 
     if (redirect) {
         return <Navigate to={'/'} />
