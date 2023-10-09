@@ -6,6 +6,8 @@ import IPaciente from "../../interfaces/IPaciente";
 import useAtualizarPacientesMesAno from "../../state/hooks/useAtualizarPacientesMesAno";
 import { useSetRecoilState } from "recoil";
 import { carregandoState } from "../../state/atom";
+import useAno from "../../state/hooks/useAno";
+import useMes from "../../state/hooks/useMes";
 
 interface SessaoProp {
     paciente: IPaciente,
@@ -13,6 +15,8 @@ interface SessaoProp {
 }
 
 export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
+    const mes = useMes();
+    const ano = useAno();
     const [statusSemana, setStatusSemana] = useState<IStatusSemana>(paciente.sessoes[0].status_semana);
     const [valor, setValor] = useState<string>(getValor());
     const atualizaListaPacientes = useAtualizarPacientesMesAno();
@@ -71,7 +75,7 @@ export default function SelectStatusSessao({ paciente, semana }: SessaoProp) {
 
             if (resultado.status === 200) {
                 setStatusSemana(novoStatusSemana);
-                await atualizaListaPacientes();
+                await atualizaListaPacientes(mes, ano);
             }
             else {
                 throw new Error();

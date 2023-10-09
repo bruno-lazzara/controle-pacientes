@@ -48,7 +48,7 @@ export default function Login() {
         }
         localStorage.clear();
         setCarregando(false);
-    }, []);
+    }, [setCarregando]);
 
     if (redirect) {
         return <Navigate to={`/admin/sessoes`} />

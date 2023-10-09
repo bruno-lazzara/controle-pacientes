@@ -20,22 +20,21 @@ export default function Sessoes() {
     const [redirect, setRedirect] = useState(false);
     const atualizaListaPacientes = useAtualizarPacientesMesAno();
     const setCarregando = useSetRecoilState<boolean>(carregandoState);
-
+    
     useEffect(() => {
         if (!localStorage.getItem('access-token')) {
             setRedirect(true);
             return;
         }
-        // TODO verificar validade do token na API, e redirecionar para tela de login se já estiver inválido
 
         async function carregarPacientes() {
             setCarregando(true);
-            await atualizaListaPacientes();
+            await atualizaListaPacientes(mes, ano);
             setCarregando(false);
         }
 
         carregarPacientes();
-    }, [mes, ano]);
+    }, [mes, ano, atualizaListaPacientes, setCarregando]);
 
     if (redirect) {
         return <Navigate to={'/'} />
@@ -61,8 +60,8 @@ export default function Sessoes() {
                         <TableRow>
                             <TableCell align='center'></TableCell>
                             <TableCell align='left' sx={{ fontWeight: 'bold' }}>Pacientes</TableCell>
-                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 2</TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 1</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 2</TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 3</TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 4</TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>Semana 5</TableCell>

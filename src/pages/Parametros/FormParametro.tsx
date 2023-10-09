@@ -32,7 +32,7 @@ export default function FormParametro() {
         if (parametrosUrl.id) {
             buscarParametro(parametrosUrl.id);
         }
-    }, [parametrosUrl]);
+    }, [parametrosUrl, setCarregando]);
 
     async function atualizarParametro(evento: React.FormEvent<HTMLFormElement>) {
         evento.preventDefault();

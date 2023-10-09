@@ -35,7 +35,7 @@ export default function FormPaciente() {
         if (parametros.id) {
             buscarPaciente(parametros.id);
         }
-    }, [parametros]);
+    }, [parametros, setCarregando]);
 
     const alterarDescontaImposto = (evento: SelectChangeEvent<boolean>) => {
         if (evento.target.value === 'true') {

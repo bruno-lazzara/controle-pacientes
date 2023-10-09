@@ -1,16 +1,13 @@
-import { useSetRecoilState } from "recoil"
-import IPaciente from "../../interfaces/IPaciente"
-import { pacientesMesAnoState } from "../atom"
-import useMes from "./useMes";
-import useAno from "./useAno";
+import { useSetRecoilState } from "recoil";
+import IPaciente from "../../interfaces/IPaciente";
+import { pacientesMesAnoState } from "../atom";
 import http from "../../http";
+import { useCallback } from "react";
 
 const useAtualizarPacientesMesAno = () => {
     const setPacientes = useSetRecoilState<IPaciente[]>(pacientesMesAnoState);
-    const mes = useMes();
-    const ano = useAno();
 
-    return async () => {
+    return useCallback(async (mes: string, ano: string) => {
         try {
             const resposta = await http.get<IPaciente[]>(`/pacientes/${mes}/${ano}`);
 
@@ -18,7 +15,7 @@ const useAtualizarPacientesMesAno = () => {
         } catch (err) {
             setPacientes([]);
         }
-    }
+    }, [setPacientes]);
 }
 
 export default useAtualizarPacientesMesAno;

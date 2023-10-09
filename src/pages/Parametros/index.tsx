@@ -19,24 +19,23 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function Parametros() {
     const [parametros, setParametros] = useState<IParametro[]>([]);
-    const atualizaDescontoMensal = useSetRecoilState<number>(parametroDescontoState);
-    const atualizaCarregando = useSetRecoilState<boolean>(carregandoState);
+    const setDescontoMensal = useSetRecoilState<number>(parametroDescontoState);
+    const setCarregando = useSetRecoilState<boolean>(carregandoState);
 
     useEffect(() => {
         async function buscaParametros() {
-            atualizaCarregando(true);
+            setCarregando(true);
             try {
                 const resultado = await http.get<IParametro[]>('/parametros');
                 setParametros(resultado.data);
-                atualizaDescontoMensal(resultado.data.filter(p => p.nome === 'Custo Mensal')[0].valor);
-                atualizaCarregando(false);
+                setDescontoMensal(resultado.data.filter(p => p.nome === 'Custo Mensal')[0].valor);
             } catch (err) {
                 setParametros([]);
-                atualizaCarregando(false);
             }
+            setCarregando(false);
         }
         buscaParametros();
-    }, [])
+    }, [setDescontoMensal, setCarregando]);
 
     return (
         <Container maxWidth='lg'>
