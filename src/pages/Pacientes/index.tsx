@@ -42,6 +42,7 @@ export default function Pacientes() {
                             <TableCell align='left' sx={{ fontWeight: 'bold' }}>Nome</TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>Valor da sessão</TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>Desconta imposto?</TableCell>
+                            <TableCell align='center' sx={{ fontWeight: 'bold' }}>Paciente Psicologia Pelo Mundo?</TableCell>
                             <TableCell align='center' sx={{ fontWeight: 'bold' }}>Editar</TableCell>
                         </TableRow>
                     </TableHead>
@@ -54,6 +55,7 @@ export default function Pacientes() {
                                 <TableCell align='left'>{paciente.nome}</TableCell>
                                 <TableCell align='center'>{paciente.valor_secao.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</TableCell>
                                 <TableCell align='center'>{paciente.desconta_imposto ? 'Sim' : 'Não'}</TableCell>
+                                <TableCell align='center'>{paciente.paciente_psi_mundo ? 'Sim' : 'Não'}</TableCell>
                                 <TableCell align='center'>
                                     <Button
                                         component={Link}

@@ -5,5 +5,6 @@ export default interface IPaciente {
     nome: string
     valor_secao: number
     desconta_imposto: boolean
+    paciente_psi_mundo: boolean
     sessoes: ISessao[]
 }
