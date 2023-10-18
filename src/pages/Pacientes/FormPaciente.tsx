@@ -13,6 +13,7 @@ export default function FormPaciente() {
     const [nome, setNome] = useState('');
     const [valorSessao, setValorSessao] = useState('');
     const [descontaImposto, setDescontaImposto] = useState(false);
+    const [pacientePsiMundo, setPacientePsiMundo] = useState(false);
     const setCarregando = useSetRecoilState<boolean>(carregandoState);
 
     useEffect(() => {
@@ -24,10 +25,12 @@ export default function FormPaciente() {
                 setNome(resposta.data.nome);
                 setValorSessao(resposta.data.valor_secao.toString());
                 setDescontaImposto(resposta.data.desconta_imposto);
+                setPacientePsiMundo(resposta.data.paciente_psi_mundo);
             } catch (err) {
                 setNome('');
                 setValorSessao('');
                 setDescontaImposto(false);
+                setPacientePsiMundo(false);
             }
             setCarregando(false);
         }
@@ -45,6 +48,14 @@ export default function FormPaciente() {
         }
     }
 
+    const alterarPacientePsiMundo = (evento: SelectChangeEvent<boolean>) => {
+        if (evento.target.value === 'true') {
+            setPacientePsiMundo(true);
+        } else {
+            setPacientePsiMundo(false);
+        }
+    }
+
     const upsertPaciente = async (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault();
 
@@ -55,12 +66,9 @@ export default function FormPaciente() {
             nome: nome,
             valor_secao: Number(valorSessaoFormatado).toFixed(2),
             desconta_imposto: descontaImposto,
+            paciente_psi_mundo: pacientePsiMundo,
             sessoes: []
         };
-
-        setNome('');
-        setValorSessao('');
-        setDescontaImposto(false);
 
         try {
             console.log(paciente);
@@ -70,6 +78,11 @@ export default function FormPaciente() {
             } else {
                 const resposta = await http.post('/pacientes', paciente);
                 alert(resposta.status === 201 ? 'Paciente cadastrado!' : 'Erro ao cadastrar paciente');
+
+                setNome('');
+                setValorSessao('');
+                setDescontaImposto(false);
+                setPacientePsiMundo(false);
             }
         } catch (err) {
             alert('Erro na operação');
@@ -85,7 +98,7 @@ export default function FormPaciente() {
                 onSubmit={upsertPaciente}
             >
                 <Grid container spacing={2} mt={1}>
-                    <Grid md={8}>
+                    <Grid md={6}>
                         <TextField
                             value={nome}
                             onChange={evento => setNome(evento.target.value)}
@@ -101,7 +114,7 @@ export default function FormPaciente() {
                     </Grid>
 
                     <Grid md={2}>
-                        <FormControl variant="standard" sx={{ mt: 3, minWidth: 120 }}>
+                        <FormControl variant="standard" sx={{ mt: 3, minWidth: 200 }}>
                             <InputLabel id="desconta-imposto-label">Desconta imposto?</InputLabel>
                             <Select
                                 labelId="desconta-imposto-label"
@@ -109,6 +122,23 @@ export default function FormPaciente() {
                                 value={descontaImposto}
                                 onChange={alterarDescontaImposto}
                                 label="Desconta imposto?"
+                                required
+                            >
+                                <MenuItem value={'false'}>Não</MenuItem>
+                                <MenuItem value={'true'}>Sim</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid md={2}>
+                        <FormControl variant="standard" sx={{ mt: 3, minWidth: 200 }}>
+                            <InputLabel id="psi-mundo-label">Paciente Psicologia Pelo Mundo?</InputLabel>
+                            <Select
+                                labelId="psi-mundo-label"
+                                id="psi-mundo"
+                                value={pacientePsiMundo}
+                                onChange={alterarPacientePsiMundo}
+                                label="Paciente Psicologia Pelo Mundo?"
                                 required
                             >
                                 <MenuItem value={'false'}>Não</MenuItem>
