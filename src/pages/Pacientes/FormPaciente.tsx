@@ -71,7 +71,6 @@ export default function FormPaciente() {
         };
 
         try {
-            console.log(paciente);
             if (parametros.id) {
                 const resposta = await http.put(`/pacientes/${parametros.id}`, paciente);
                 alert(resposta.status === 200 ? 'Paciente atualizado!' : 'Erro ao atualizar paciente');
